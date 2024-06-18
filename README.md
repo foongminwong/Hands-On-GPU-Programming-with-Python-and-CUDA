@@ -81,3 +81,7 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
     - Install PyCUDA: `pip install pycuda`
         - ![alt text](image-8.png)
         - If you received error `ImportError: DLL load failed while importing _driver: The specified module could not be found.` when running [Chapter03/deviceQuery.ipynb](Chapter03/deviceQuery.ipynb), add `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.5\bin` to PATH
+
+### Chapter 03: Getting Started with PyCUDA, GPU Programming via Python, Transfer data to and from using PyCUDA's gpuarray class, Compile simple CUDA kernels with PyCUDA's ElementwiseKernel function
+- GPU Query: To display specific technical details of the GPU, such as available GPU memory and core count, check out [Chapter03/deviceQuery.ipynb](Chapter03/deviceQuery.ipynb)
+- Use PyCUDA's gpuarray class to transfer data between the host (CPU) and device (GPU) - WIP
