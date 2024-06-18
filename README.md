@@ -1,6 +1,3 @@
-
-
-
 # Hands-On GPU Programming with Python and CUDA
 
 <a href="https://www.packtpub.com/application-development/hands-gpu-programming-python-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781788993913 "><img src="https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B10306.png" alt="Hands-On GPU Programming with Python and CUDA" height="256px" align="right"></a>
@@ -22,9 +19,6 @@ This book covers the following exciting features:
 * Explore advanced GPU hardware features, such as warp shuffling 
 
 If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788993918) today!
-
-<a href="https://www.packtpub.com/?utm_source=github&utm_medium=banner&utm_campaign=GitHubBanner"><img src="https://raw.githubusercontent.com/PacktPublishing/GitHub/master/GitHub.png" 
-alt="https://www.packtpub.com/" border="5" /></a>
 
 ## Instructions and Navigations
 All of the code is organized into folders. For example, Chapter02.
@@ -57,26 +51,32 @@ With the following software and hardware list you can run all code files present
 | 2-11     | NVIDIA GPU (GTX 1050 or better)      | Windows, Linux                      |
 
 
-
-
 We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781788993913_ColorImages.pdf).
-
-### Related products
-* Hands-On GPU-Accelerated Computer Vision with OpenCV and CUDA [[Packt]](https://www.packtpub.com/application-development/hands-gpu-accelerated-computer-vision-opencv-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781789348293 ) [[Amazon]](https://www.amazon.com/dp/1789348293)
-
-* OpenCV 3 Computer Vision with Python Cookbook [[Packt]](https://www.packtpub.com/application-development/opencv-3-computer-vision-python-cookbook?utm_source=github&utm_medium=repository&utm_campaign=9781788474443 ) [[Amazon]](https://www.amazon.com/dp/1788474449)
 
 ## Get to Know the Author
 **Dr Brian Tuomanen**
 has been working with CUDA and general-purpose GPU programming since 2014. He received his bachelor of science in electrical engineering from the University of Washington in Seattle, and briefly worked as a software engineer before switching to mathematics for graduate school. He completed his PhD in mathematics at the University of Missouri in Columbia, where he first encountered GPU programming as a means for studying scientific problems. Dr. Tuomanen has spoken at the US Army Research Lab about general-purpose GPU programming and has recently led GPU integration and development at a Maryland-based start-up company. He currently works as a machine learning specialist (Azure CSI) for Microsoft in the Seattle area.
 
-
-### Suggestions and Feedback
-[Click here](https://docs.google.com/forms/d/e/1FAIpQLSdy7dATC6QmEL81FIUuymZ0Wy9vH1jHkvpY57OiMeKGqib_Ow/viewform) if you have any feedback or suggestions.
-
-
-
-### Download a free PDF
-
- <i>If you have already purchased a print or Kindle version of this book, you can get a DRM-free PDF version at no cost.<br>Simply click on the link to claim your free PDF.</i>
-<p align="center"> <a href="https://packt.link/free-ebook/9781788993913">https://packt.link/free-ebook/9781788993913 </a> </p>
+## Notes
+### Chapter 01: Why GPU Programming? Technical requirements, Parallelization and Amdahl's Law, Code Profiling
+-  CUDA (Pronunciation: coo-duh), a framework for general-purpose GPU (GPGPU) programming from NVIDIA
+- Amdahl's Law
+    - A method to estimate potential speedup we can get by offloading a program or algorithm onto a GPU/ for a program that can be at least partially parallelized
+    - Speedup = 1/((1-p)+p/N)
+    - p = parallelizable proportion of execution time for code in original serial program
+    - N = Number of processor cores
+- Latency: Duration of performing a single computation.
+- Power of GPU - TONS of cores MORE than in a CPU, which provides throughput
+- Throughput: Number of computations that can be performed simultaneously
+- "A GPU is like a very wide city road that is designed to handle many slower-moving cars at once (high throughput, high latency), whereas a CPU is like a narrow highway that can only admit a few cars at once, but can get each individual car to its destination much quicker (low throughput, low latency)."
+- ⬆ number of cores of GPU, ⬆ in throughput
+- Example: 
+    - CPU - 11th Gen Intel(R) Core (TM) i7-11850H @2.50GHz: 8 cores
+    - GPU - [NVIDIA RTX A2000](https://www.nvidia.com/content/dam/en-zz/Solutions/design-visualization/rtx-a2000/nvidia-rtx-a2000-datasheet.pdf): 3328 CUDA Cores
+    - GPU - [NVIDIA RTX A4000](https://www.nvidia.com/content/dam/en-zz/Solutions/gtcs21/rtx-a4000/nvidia-rtx-a4000-datasheet.pdf): 6144 CUDA Cores
+- Exploit throughput, know how to properly parallelize to split workload to run in parallel on multiple processors simultaneously
+- Building a house (N number of laborers, N times as fast, N =  speedup of parallelizing a task over the serial version of a task) = parallelizable task
+- Profiling code with cPython module, check out [Chapter01/mandelbrot0.ipynb](Chapter01/mandelbrot0.ipynb)
+- Advantage of GPU over CPU = ⬆ throughput, execute more parallel code simultaneously on GPU than on a CPU
+- "GPU cannot make recursive algorithms or nonparallelizable algorithms somewhat faster"
+- Serial vs Parallelizable
