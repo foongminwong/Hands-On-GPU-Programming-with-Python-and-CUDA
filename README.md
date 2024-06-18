@@ -1,63 +1,8 @@
-# Hands-On GPU Programming with Python and CUDA
+# Hands-On GPU Programming with Python and CUDA - Notes
+<a href="https://www.packtpub.com/application-development/hands-gpu-programming-python-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781788993913 "></a>
 
-<a href="https://www.packtpub.com/application-development/hands-gpu-programming-python-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781788993913 "><img src="https://d255esdrn735hr.cloudfront.net/sites/default/files/imagecache/ppv4_main_book_cover/B10306.png" alt="Hands-On GPU Programming with Python and CUDA" height="256px" align="right"></a>
+This is the forked code repository for [Hands-On GPU Programming with Python and CUDA](https://www.packtpub.com/application-development/hands-gpu-programming-python-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781788993913 ), published by Packt.
 
-This is the code repository for [Hands-On GPU Programming with Python and CUDA](https://www.packtpub.com/application-development/hands-gpu-programming-python-and-cuda?utm_source=github&utm_medium=repository&utm_campaign=9781788993913 ), published by Packt.
-
-**Explore high-performance parallel computing with CUDA**
-
-## What is this book about?
-Hands-On GPU Programming with Python and CUDA hits the ground running: you’ll start by learning how to apply Amdahl’s Law, use a code profiler to identify bottlenecks in your Python code, and set up an appropriate GPU programming environment. You’ll then see how to “query” the GPU’s features and copy arrays of data to and from the GPU’s own memory.
-
-This book covers the following exciting features:
-* Launch GPU code directly from Python 
-* Write effective and efficient GPU kernels and device functions 
-* Use libraries such as cuFFT, cuBLAS, and cuSolver 
-* Debug and profile your code with Nsight and Visual Profiler 
-* Apply GPU programming to datascience problems 
-* Build a GPU-based deep neuralnetwork from scratch 
-* Explore advanced GPU hardware features, such as warp shuffling 
-
-If you feel this book is for you, get your [copy](https://www.amazon.com/dp/1788993918) today!
-
-## Instructions and Navigations
-All of the code is organized into folders. For example, Chapter02.
-
-The code will look like the following:
-```
-cublas.cublasDestroy(handle)
-print 'cuBLAS returned the correct value: %s' % np.allclose(np.dot(A,x), y_gpu.get())
-```
-
-**Following is what you need for this book:**
-Hands-On GPU Programming with Python and CUDA is for developers and data scientists who want to learn the basics of effective GPU programming to improve performance using Python code. You should have an understanding of first-year college or university-level engineering mathematics and physics, and have some experience with Python as well as in any C-based programming language such as C, C++, Go, or Java.
-
-With the following software and hardware list you can run all code files present in the book (Chapter 1-12).
-### Software and Hardware List
-| Chapter  | Software required                    | OS required                         |
-| -------- | ------------------------------------ | ----------------------------------- |
-| 1-11     | Anaconda 5 (Python 2.7 version)      | Windows, Linux                      |
-| 2-11     | CUDA 9.2, CUDA 10.x                  | Windows, Linux                      |
-| 2-11     | PyCUDA (latest)                      | Windows, Linux                      |
-| 7        | Scikit-CUDA (latest)                 | Windows, Linux                      |
-| 2-11     | Visual Studio Community 2015         | Windows                             |
-| 2-11     | GCC, GDB, Eclipse                    | Linux                               |
-
-
-| Chapter  | Hardware required                    | OS required                         |
-| -------- | ------------------------------------ | ----------------------------------- |
-| 1-11     | 64-bit Intel/AMD PC                  | Windows, Linux                      |
-| 1-11     | 4 Gigabytes RAM                      | Windows, Linux                      |
-| 2-11     | NVIDIA GPU (GTX 1050 or better)      | Windows, Linux                      |
-
-
-We also provide a PDF file that has color images of the screenshots/diagrams used in this book. [Click here to download it](https://www.packtpub.com/sites/default/files/downloads/9781788993913_ColorImages.pdf).
-
-## Get to Know the Author
-**Dr Brian Tuomanen**
-has been working with CUDA and general-purpose GPU programming since 2014. He received his bachelor of science in electrical engineering from the University of Washington in Seattle, and briefly worked as a software engineer before switching to mathematics for graduate school. He completed his PhD in mathematics at the University of Missouri in Columbia, where he first encountered GPU programming as a means for studying scientific problems. Dr. Tuomanen has spoken at the US Army Research Lab about general-purpose GPU programming and has recently led GPU integration and development at a Maryland-based start-up company. He currently works as a machine learning specialist (Azure CSI) for Microsoft in the Seattle area.
-
-## Notes
 ### Chapter 01: Why GPU Programming? Technical requirements, Parallelization and Amdahl's Law, Code Profiling
 -  CUDA (Pronunciation: coo-duh), a framework for general-purpose GPU (GPGPU) programming from NVIDIA
 - Amdahl's Law
@@ -80,3 +25,59 @@ has been working with CUDA and general-purpose GPU programming since 2014. He re
 - Advantage of GPU over CPU = ⬆ throughput, execute more parallel code simultaneously on GPU than on a CPU
 - "GPU cannot make recursive algorithms or nonparallelizable algorithms somewhat faster"
 - Serial vs Parallelizable
+
+### Chapter 02: Setting Up GPU Programming Environment, Technical & Hardware Requirements, GPU Drivers Installation, Setup C++ & Python development environment on Windows & Linux
+- Setup Instructions setup available for Ubuntu LTS (long-term support)-based Linux OS (e.g.,  Xubuntu, Kubuntu, or Linux Mint) or Windows 10
+- Fast pre-optimized NumPy/SciPy packages <= Intel's Math Kernel Library (MKL)
+- Requiremenet: an NVIDIA brand GPU. The CUDA Toolkit is proprietary for NVIDIA cards, so it won't work for programming Intel HD or Radeon GPUs.
+- Linux:
+    - Open Terminal: `Ctrl + Alt + T`
+    - Check processor: `lscpu`
+    - Check memory capacity: `free -g` - Display total number of proper memory & memory in swap space
+    - Check for Nvidia GPU: `lspci | grep -e "NVIDIA"`
+    - Nouveau - an open-source default driver for NVIDIA GPUs in Ubuntu, buts does not work with CUDA
+    - Install proprietary driver by adding `graphics-drivers` repository to package manager
+        - `sudo add-apt-repository ppa:graphics-drivers/ppa`
+        - Synchronize system with the new repo: `sudo apt-get update`
+        - Press `Windows + R` and search `software and drivers`
+        - Software & Drivers -> Additional Drivers -> Choose the lastest stable proprietary drivers for the GPU (e.g., Using NVIDIA driver metapackage from nvidia-driver-XXX (open source)) -> Apply Changes -> Wait... -> Press `Windows + A` -> Enter `nvidia-settings` -> NVIDIA X Server Settings manager
+    - Setup GCC, Eclipse IDE, and graphical dependencies: 
+        - `sudo apt-get update`
+        - `sudo apt-get install build-essential binutils gdb eclipse-cdt`
+            - `build-essential` - gcc, g++ compilers & other utilities such as make
+            - `binutils` - useful utilities, such as the LD linker
+            - `gdb` - debugger
+            - `Eclipse` - IDE
+        - `sudo apt-get install freeglut3 freeglut3-dev libxi-dev libxmu-dev` - allow our system to run graphical (OpenGL) stuff included with the CUDA Toolkit
+    - Download & Install [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads)
+        - `.deb` package (recommended) & a `.run` file (This installs outside of the system's Advanced Package Tool - APT system, which copies the appropriate files to the system's /usr binary and library directories - do this if you know Linux well and know how to work with the Ubuntu's system APT system or repos)
+        - Edit `.bashrc` file to configure PATH and LD_SYSTEM_CONFIG environment variables so that the system can find the appropriate binary executable and library files needed for CUDA.
+        ```
+        export PATH="/usr/local/cuda/bin:${PATH}
+        export LD_LIBRARY_PATH="/usr/local/cuda/lib64:${LD_LIBRARY_PATH}"
+        ```
+    - Install PyCUDA
+        - Check where the python binary `which python` else edit `~/.bashrc` file by adding `export PATH="/home/${USER}/anaconda2/bin:${PATH}"`
+        - `pip install pycuda`
+
+
+
+- Windows
+    - Control Panel -> Device Manager
+    - ![alt text](image-1.png)
+    - CUDA is very particular about which driver has been installed by the user.
+    - "Windows has better CUDA driver compatibility and a more user-friendly installation than Linux."
+    - Download & Install GPU drivers for Windows on [NVIDIA Driver Downloads](https://www.nvidia.com/download/index.aspx?lang=en-us)
+        - ![alt text](image-2.png)
+        - ![alt text](image-3.png)
+        - ![alt text](image.png)
+    - [Install C/C++ on Windows - Guide](https://medium.com/@farid.rahimoff/installing-c-compiler-for-windows-10-and-11-step-by-st-51e760443b02)
+    - Download & Install [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads), nvcc compiler
+        - ![alt text](image-4.png)
+        - ![alt text](image-5.png)
+        - ![alt text](image-6.png)
+        - Check the NVIDIA compiler version information: `nvcc --version`
+        - ![alt text](image-9.png)
+    - Install PyCUDA: `pip install pycuda`
+        - ![alt text](image-8.png)
+        - If you received error `ImportError: DLL load failed while importing _driver: The specified module could not be found.` when running [Chapter03/deviceQuery.ipynb](Chapter03/deviceQuery.ipynb), add `C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v12.5\bin` to PATH
