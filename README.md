@@ -97,4 +97,27 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
 - Use PyCUDA's ElementWiseKernel for performing pointwise computations
     - kernel: function that is launched directly onto the GPU by CUDA
     - Check out [Chapter03/simple_element_kernel_example0.ipynb](Chapter03/simple_element_kernel_example0.ipynb)
-    - gpu_mandelbrot - WIP
+    - gpu_mandelbrot - [Chapter03/gpu_mandelbrot0.py](Chapter03/gpu_mandelbrot0.py)
+- Brief foray into functional programming
+    - `map`, `reduce` - functions avaialble in functional programmng in Python, both act on functions for their operation.
+    ` `lambda` - define anonymous function: throwaway function that we may only wish to use once, or functions that are able to be defined on a single line
+    - ![alt text](image-10.png)
+    - `map` with 2 inputs: Function & List of objs, similar to `ElementWiseKernel` - standard design pattern in functional programming, `map(lambda x : x**2, [2,3,4])`
+    - ![alt text](image-11.png)
+    - `reduce`: `reduce(lambda x, y : x + y, [1,2,3,4])`
+    - `reduce`: associative binary operations, "no matter the order we perform our operation between sequential elements of the list, will always invariably give the same result, provided that the list is kept in order. (This is not to be confused with the commutative property.)"
+    - ![alt text](image-12.png)
+- PyCUDA's parallel scan & reduction kernel basics (akin to `reduce`)
+    - [Chapter03/simple_scankernel0.py](Chapter03/simple_scankernel0.py)
+    - [Chapter03/simple_scankernel1.py](Chapter03/simple_scankernel1.py)
+    - `ReductionKernel`
+        - dot product from linear algebra
+        - `dot_prod = ReductionKernel(np.float32, neutral="0", reduce_expr="a+b", map_expr="vec1[i]*vec2[i]", arguments="float *vec1, float *vec2")`
+- Summary:
+    - CUDA `deviceQuery`, data transfer via PyCUDA `gpuarray`, `to_gpu`, `get`
+    - IPython's `prun` profiler for speed comparison
+    - Slowdown first time running GPU functions from PyCUDA due to PyCUDA launching NVIDIA's nvcc compiler to compile inline CUDA C code
+    - `ElementwiseKernel` function to compile and launch element-wise operations, which are automatically parallelized onto the GPU from Python
+    - functional programming: `map` & `reduce`
+    - reduce/scan-type computations on the GPU: `InclusiveScanKernel`, `ReductionKernel`
+    - basics of writing and launching kernel functions
