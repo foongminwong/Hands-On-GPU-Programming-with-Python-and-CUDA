@@ -60,8 +60,6 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
         - Check where the python binary `which python` else edit `~/.bashrc` file by adding `export PATH="/home/${USER}/anaconda2/bin:${PATH}"`
         - `pip install pycuda`
 
-
-
 - Windows
     - Control Panel -> Device Manager
     - ![alt text](image-1.png)
@@ -72,6 +70,7 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
         - ![alt text](image-3.png)
         - ![alt text](image.png)
     - [Install C/C++ on Windows - Guide](https://medium.com/@farid.rahimoff/installing-c-compiler-for-windows-10-and-11-step-by-st-51e760443b02)
+    - Download & Install [Visual Studio Community](https://visualstudio.microsoft.com/downloads/)
     - Download & Install [CUDA Toolkit](https://developer.nvidia.com/cuda-downloads), nvcc compiler
         - ![alt text](image-4.png)
         - ![alt text](image-5.png)
@@ -84,4 +83,18 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
 
 ### Chapter 03: Getting Started with PyCUDA, GPU Programming via Python, Transfer data to and from using PyCUDA's gpuarray class, Compile simple CUDA kernels with PyCUDA's ElementwiseKernel function
 - GPU Query: To display specific technical details of the GPU, such as available GPU memory and core count, check out [Chapter03/deviceQuery.ipynb](Chapter03/deviceQuery.ipynb)
-- Use PyCUDA's gpuarray class to transfer data between the host (CPU) and device (GPU) - WIP
+- Use PyCUDA's gpuarray class to transfer data between the host (CPU) and device (GPU) -
+    - Numerical Programming: NumPy's array
+    - GPU Programming: PyCUDA's gpuarray
+    - Device Memory/ Global DM: 
+        - A GPU has its own memory apart from the host computer's (CPU) memory. GPU also has other memories such as additional cache memory, shared memory & register memory.
+        - Similar to dynamically allocated heap memory in C (`malloc`, `free`) or C++ (`new`, `delete`)
+    - CUDA C
+        - Data transfer between  CPU & GPU (`cudaMemcpyHostToDevice`, `cudaMemcpyDeviceToHost`)
+        - Keep track of multiple pointers in both the CPU and GPU space and performing proper memory allocations (`cudaMalloc`, `cudaFree`) 
+    - Check out [Chapter03/time_calc0.ipynb](Chapter03/time_calc0.ipynb)
+    - Check out [Chapter03/explore_gpuarray.ipynb](Chapter03/explore_gpuarray.ipynb)
+- Use PyCUDA's ElementWiseKernel for performing pointwise computations
+    - kernel: function that is launched directly onto the GPU by CUDA
+    - Check out [Chapter03/simple_element_kernel_example0.ipynb](Chapter03/simple_element_kernel_example0.ipynb)
+    - gpu_mandelbrot - WIP
