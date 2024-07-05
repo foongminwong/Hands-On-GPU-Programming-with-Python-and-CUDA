@@ -121,3 +121,38 @@ This is the forked code repository for [Hands-On GPU Programming with Python and
     - functional programming: `map` & `reduce`
     - reduce/scan-type computations on the GPU: `InclusiveScanKernel`, `ReductionKernel`
     - basics of writing and launching kernel functions
+
+### Chapter 04: Kernels, Threads, Blocks, and Grids, Fundamentals of writing effective CUDA kernels, which are parallel functions that are launched on the GPU, How to write CUDA device functions ("serial" functions called directly by CUDA kernels), CUDA's abstract grid/block structure and the role it plays in launching kernels
+- Kernel/ CUDA Kernel/ Kernel Function: A parallel function that can be launched directly from the host (CPU) onto the device (GPU)
+    - Chapter3: Wrote CUDA kernel functions as inline CUDA C in Python code, then launch them onto GPU using PyCUDA, Used templates provided by PyCUDA to write kernels that fall into particular design patterns
+    - Device function: A function that can only be called from a kernel function or another device function, like normal serial C/C++ functions, only they are running on the GPU and are called in parallel from kernels.
+    - Understanding the difference between a kernel and a device function
+    - How to compile and launch a kernel in PyCUDA and use a device function within a kernel - [Chapter04/simple_scalar_multiply_kernel.ipynb](Chapter04/simple_scalar_multiply_kernel.ipynb)
+- Threads, Blocks, Grids: CUDA uses these notions to abstract away some of the GPU technical details (such as cores, warps, and streaming multiprocessor) to ease the cognitive overhead in parallel programming.
+    - Thread: Sequence of instructions that is executed on a single core of GPU
+    - Cores & Threads are not the same!
+    - Possible to launch kernels that use many more threads than there are cores on the GPU
+    - 4-core Intel chip can run 100+ processes & 1000+ threads in Linux & Windows OS, whcih the scheduler switches between tasks rapidly, giving the appearance that they are running simultaneously, which GPU also handles threads similarly
+    - Multiple threads are executed on the GPU in abstract units known as blocks 
+    - Index blocks over 3 dimensions, how we got the thread ID from `threadIdx.x`, there is also `threadIdx.y` & `threadIdx.z`
+    - Chp01 & Chp03 MandelbrotSet - calculated point-by-point over a 2D plane, index threads over 2D for algorithms like that
+    - Index threads over 3D - physics simulation, calculate the positions of moving particles within a 3D grid 
+    - Blocks are further executed in abstract batches known as grids, which are best thought of as blocks of blocks
+    - Threads in a block, index each block in the grid in up to three dimensions with the constant values that are given by `blockIdx.x` , `blockIdx.y`, `blockIdx.z`
+    - Conway's game of life: [Chapter04/conway_gpu.ipynb](Chapter04/conway_gpu.ipynb)
+    - Effectively using threads, blocks, and grids in the context of launching a kernel and how to use threadIdx and blockIdx within a kernel
+- Thread Synchronization (Block-level & Grid-level) & Thread Intercommunication
+    - Thread synchronization (TS): Ensure that every single thread has reached the same exact line in the code before continuing with any further computation
+    - TS works hand-in-hand with thread intercommunication
+    - CUDA __syncthreads device function to synchronize a single block in a kernel.
+
+
+
+- CUDA Intra-thread communication (Global, shared memory)
+
+
+
+
+How and why to synchronize threads within a kernel, using both __syncthreads() for synchronizing all threads among a single block and the host to synchronize all threads among an entire grid of blocks
+How to use device global and shared memory for intra-thread communication
+How to use all of our newly acquired knowledge about kernels to properly implement a GPU version of the parallel prefix sum
