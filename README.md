@@ -146,15 +146,23 @@ Below contains notes, keypoints taken from the book and notebooks (.ipynb) creat
 - Thread Synchronization (Block-level & Grid-level) & Thread Intercommunication
     - Thread synchronization (TS): Ensure that every single thread has reached the same exact line in the code before continuing with any further computation
     - TS works hand-in-hand with thread intercommunication
-    - CUDA __syncthreads device function to synchronize a single block in a kernel.
-
-
-
+    - CUDA __syncthreads device function to synchronize a single block in a kernel - [Chapter04/conway_gpu_syncthreads.ipynb](Chapter04/conway_gpu_syncthreads.ipynb)
+        - Avoid race conditions
+        - Block level synchronization barrier: Every thread that is executing within a block will stop when it reaches a `__syncthreads()` instance and wait until each and every other thread within the same block reaches that same invocation of `__syncthreads()` before the the threads continue to execute the subsequent lines of code
+        - `__syncthreads()` can only synchronize threads within a single CUDA block, not all threads within a CUDA grid
+    - Race conditions occurs when there is an issue of multiple threads reading and writing to the same memory address and the problems that may arise from that
+    - Old `conway_ker kernel` avoids race condition issue by using 2 arrays of memory, one that is strictly read from, and one that is strictly written to for each iteration
 - CUDA Intra-thread communication (Global, shared memory)
-
-
-
-
-How and why to synchronize threads within a kernel, using both __syncthreads() for synchronizing all threads among a single block and the host to synchronize all threads among an entire grid of blocks
-How to use device global and shared memory for intra-thread communication
-How to use all of our newly acquired knowledge about kernels to properly implement a GPU version of the parallel prefix sum
+    - Shared memory: [Chapter04/conway_gpu_syncthreads_shared.ipynb](Chapter04/conway_gpu_syncthreads_shared.ipynb)
+    - Parallel prefix algorithm, scan design pattern
+        - Previous chapter: PyCUDA's `InclusiveScanKernel` and `ReductionKernel` functions
+        - "parallel prefix" or "scan" means an algorithm that produces all n results, while "reduce"/"reduction" means an algorithm that only yields the single final result (This is the case with PyCUDA.)
+        - Naive parallel prefix algorithm, Inclusive vs Exclusive prefix, Work-efficinet parallel prefex algo implementation (SKIP)
+- Summary:
+    - Started with an implementation of Conway's Game of Life showing an idea of how the many threads of a CUDA kernel are organized in a block-grid tensor-type structure. 
+    - Block-level synchronization by way of the CUDA function, __syncthreads(), as well as block-level thread intercommunication by using shared memory
+    - Single blocks have a limited number of threads that we can operate over, so have to be careful in using these features when we create kernels that will use more than one block across a larger grid.
+    - Overview & Implementation of the theory of parallel prefix algorithms (SKIP)
+    - How and why to synchronize threads within a kernel, using both __syncthreads() for synchronizing all threads among a single block and the host to synchronize all threads among an entire grid of blocks
+    - How to use device global and shared memory for intra-thread communication
+    - How to properly implement a GPU version of the parallel prefix sum
